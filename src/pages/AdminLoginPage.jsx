@@ -32,15 +32,15 @@ const AdminLoginPage = () => {
       // adding role to the payload
       role: "admin",
     };
-    console.log(data);
+    // console.log(data);
     let sdk = new MkdSDK();
     try {
       const response = await sdk.login(data.email, data.password, data.role);
-      console.log(response);
+      // console.log(response);
       const token = localStorage.getItem("token", JSON.stringify(response.token))
-      console.log(token);
+      // console.log(token);
       const role = response.role
-      console.log(role);
+      // console.log(role);
 
       // if the role is actually admin, should navigate to admin dashboard
       if (response) {

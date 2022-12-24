@@ -1,11 +1,17 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import Table from "../components/Table";
 
 const AdminDashboardPage = () => {
+  React.useEffect(() => {
+    console.log('it works!')
+  })
   return (
     <>
-      <div className="w-full flex justify-center items-center text-7xl h-screen text-gray-700 ">
-        Dashboard
-      </div>
+    <div className=" w-full h-screen flex flex-col flex-start text-7xl min-h-full text-white">
+      <Navbar />
+      <Table />
+    </div>
     </>
   );
 };

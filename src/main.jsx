@@ -18,7 +18,8 @@ function renderRoutes(role) {
   }
   return (
     <Routes>
-      <Route exact path="/admin/login" element={<AdminLoginPage />} />
+      <Route exact path="/" element={<AdminLoginPage />} />
+      {/* changed the path */}
       <Route path="*" exact element={<NotFoundPage />} />
     </Routes>
   );
@@ -27,13 +28,13 @@ function renderRoutes(role) {
 
 function Main() {
   const { state } = React.useContext(AuthContext);
-  console.log(state);
+  // console.log(state);
 
   return (
-    <div className="h-full">
-      <div className="flex w-full">
-        <div className="w-full">
-          <div className="page-wrapper w-full py-10 px-5">
+    <div className="min-h-full bg-black">
+      <div className="flex">
+        <div className="w-full min-h-full">
+          <div className="page-wrapper w-full min-h-full py-10 px-5">
             {!state.isAuthenticated
               ? renderRoutes("none")
               : renderRoutes(state.role)}
