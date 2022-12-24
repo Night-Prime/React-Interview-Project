@@ -39,6 +39,7 @@ export default function MkdSDK() {
   this.getHeader = function () {
     return {
       Authorization: "Bearer " + localStorage.getItem("token"),
+      "Content-Type": "application/json", //needed to add this.
       "x-project": base64Encode,
     };
   };
@@ -106,13 +107,14 @@ export default function MkdSDK() {
   };
 
   this.check = async function (role) {
-    //TODO
-    try{
-      const response = await fetch(this._baseurl + '/v1/api/lambda/check?role=' + role, {
-        method: 'GET',
-        headers: this.getHeader(),
+    try {
+      const response = await fetch('https://reacttask.mkdlabs.com/v2/api/lambda/check', {
+        method: 'POST',
+        headers: this.callRestAPI(),
+        body: JSON.stringify({
+          role: 'admin'
+        })
       });
-
       let result = await response.json();
       if(response.status === 200){
         return result;

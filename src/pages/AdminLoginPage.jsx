@@ -5,8 +5,10 @@ import * as yup from "yup";
 import MkdSDK from "../utils/MkdSDK";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
+import { GlobalContext, showToast } from "../globalContext";
 
 const AdminLoginPage = () => {
+  const {dispatch: globalDispatch} = React.useContext(GlobalContext);
   const schema = yup
     .object({
       email: yup.string().email().required(),
@@ -14,7 +16,7 @@ const AdminLoginPage = () => {
     })
     .required();
 
-  const { dispatch } = React.useContext(AuthContext);
+  const { dispatch: authDispatch } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -28,18 +30,30 @@ const AdminLoginPage = () => {
     data = {
       ...data,
       // adding role to the payload
-      role: 'admin'
-    }
+      role: "admin",
+    };
     console.log(data);
     let sdk = new MkdSDK();
     try {
       const response = await sdk.login(data.email, data.password, data.role);
-      const checkRole = await sdk.check("admin");
       console.log(response);
+      const token = localStorage.getItem("token", JSON.stringify(response.token))
+      console.log(token);
+      const role = response.role
+      console.log(role);
 
       // if the role is actually admin, should navigate to admin dashboard
-      if (checkRole) {
-        navigate("/dashboard");
+      if (response) {
+        showToast(globalDispatch, 'Login Sucessful');
+        authDispatch({
+          type: "LOGIN",
+          payload: {
+            user: data,
+            role:role,
+            token:token,
+          },
+        });
+        navigate("/admin/dashboard");
       }
     } catch (error) {
       // handle any errors that might occur during the login or role check process

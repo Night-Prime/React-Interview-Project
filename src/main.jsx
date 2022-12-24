@@ -7,30 +7,27 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function renderRoutes(role) {
-  switch (role) {
-    case "admin":
-      return (
-        <Routes>
-          <Route
-            path="/admin/dashboard"
-            element={<AdminDashboardPage />}
-          ></Route>
-        </Routes>
-      );
-      break;
-    default:
-      return (
-        <Routes>
-          <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
-          <Route path="*" exact element={<NotFoundPage />}></Route>
-        </Routes>
-      );
-      break;
+
+  // refactored the original code
+  if (role === 'admin') {
+    return (
+      <Routes>
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+      </Routes>
+    );
   }
+  return (
+    <Routes>
+      <Route exact path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="*" exact element={<NotFoundPage />} />
+    </Routes>
+  );
 }
+
 
 function Main() {
   const { state } = React.useContext(AuthContext);
+  console.log(state);
 
   return (
     <div className="h-full">
